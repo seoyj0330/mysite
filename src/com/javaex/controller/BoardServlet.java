@@ -31,23 +31,19 @@ public class BoardServlet extends HttpServlet {
 		
 			System.out.println("list 진입");
 			
-			String kwd = request.getParameter("kwd");
+			String kwd = request.getParameter("kwd");		//'찾기'할 키워드를 받아오기
 			System.out.println(kwd);
 			
 			BoardDao bDao = new BoardDao();
 			
-			List<UserBoardVo> blist = bDao.getList();
+			List<UserBoardVo> blist = bDao.getList();	//전체 게시판목록을 리스트로
 
-			//kwd를 받아서 dao의 메소드로
+			List<UserBoardVo> slist = bDao.search(kwd);	//kwd를 dao의 메소드로 받아서 리스트로
 			
-			List<UserBoardVo> slist = bDao.search(kwd);
-			
-			
-			
-			if(kwd == null) {
-				request.setAttribute("blist", blist);
+			if(kwd == null) {		//list에 뿌려줄 리스트를 kwd로 결정
+				request.setAttribute("list", blist);
 			} else {
-				request.setAttribute("blist", slist);
+				request.setAttribute("list", slist);
 			}
 		
 			WebUtil.forward(request, response, "/WEB-INF/views/board/list.jsp");
@@ -61,8 +57,8 @@ public class BoardServlet extends HttpServlet {
 		} else if("write".equals(actionName)) {
 			
 			System.out.println("write 진입");
-			//로그인한 사람만 글 쓰기 가능 !!
-			HttpSession session = request.getSession();
+			
+			HttpSession session = request.getSession();		//로그인한 사람만 글 쓰기 가능 !!
 			UserVo authUser = (UserVo)session.getAttribute("authUser");
 			
 			String title = request.getParameter("title");
@@ -86,16 +82,12 @@ public class BoardServlet extends HttpServlet {
 			System.out.println("viewform 진입");
 			
 			String boardno2 = request.getParameter("boardno");
-			
 			int boardno = Integer.parseInt(boardno2);
 			System.out.println(boardno);
 			
-			//dao에서 가져온다
 			BoardDao bDao = new BoardDao();
-			
 			BoardVo vo = bDao.getList(boardno); //제목, 내용, boardno, user_no, hit을 vo에 넣음 
-			
-			bDao.count(boardno, vo.getHit()+1); // 조회수 카운트
+			bDao.count(boardno, vo.getHit()+1); // 조회수+1 하는 메소드에 vo의 hit넣기
 			
 			request.setAttribute("volist", vo); //제목, 내용, boardno, user_no, hit volist에 담아 view.jsp로 보낸다
 			
@@ -106,7 +98,6 @@ public class BoardServlet extends HttpServlet {
 			System.out.println("delete 진입");
 		
 			//삭제하려고 받아온 no를 String에서 int형으로 바꾸기
-			//String deletno = request.getParameter("deleteno")
 			int deletno = Integer.valueOf(request.getParameter("deleteno"));
 			
 			BoardDao bDao = new BoardDao();
@@ -121,12 +112,12 @@ public class BoardServlet extends HttpServlet {
 			
 			int boardno = Integer.parseInt(boardno2);
 			
-			System.out.println("boardno:"+boardno);
+			System.out.println("boardno:" +boardno);
 			
 			//DAO에서 객체만들어서 modify활 것 꺼내오기
 			BoardDao bdao = new BoardDao();
 			BoardVo bvo = new BoardVo();
-			bvo = bdao.getList(boardno);			//title, content 들어있음 getlist()에
+			bvo = bdao.getList(boardno);			//no, title, content, user_no, hit 들어있음 
 			
 			request.setAttribute("bvo", bvo);
 			

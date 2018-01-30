@@ -89,7 +89,7 @@ public class BoardDao {
 			String query = " select b.no boardno, title, content, hit, to_char(b.reg_date, 'YY-MM-DD HH:MI:SS') reg_date, user_no, name "
 					+ " from board b, users u "
 					+ " where b.user_no = u.no "
-					+ " order by b.no desc ";
+					+ " order by boardno desc ";
 			 
 
 			pstmt = conn.prepareStatement(query);
@@ -366,7 +366,7 @@ public class BoardDao {
 		}
 	}
 	
-	public List<UserBoardVo> search(String find) {
+	public List<UserBoardVo> search(String kwd) {
 
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -390,7 +390,7 @@ public class BoardDao {
 
 			pstmt = conn.prepareStatement(query);
 
-			pstmt.setString(1, "%"+find+"%");
+			pstmt.setString(1, "%"+kwd+"%");
 
 			rs = pstmt.executeQuery();
 

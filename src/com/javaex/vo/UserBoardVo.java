@@ -15,7 +15,6 @@ public class UserBoardVo {
 	
 	public UserBoardVo() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	
 	public UserBoardVo(int userno, String name, String email, String password, String gender, int boardno, String title,

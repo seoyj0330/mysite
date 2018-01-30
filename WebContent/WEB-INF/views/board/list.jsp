@@ -35,13 +35,13 @@
 						<th>작성일</th>
 						<th>&nbsp;</th>
 					</tr>				
-					<c:forEach items = "${blist }" var="boardVo">
+					<c:forEach items = "${list }" var="userboardVo">
 					<tr>
-						<td>${boardVo.boardno }</td>
-						<td><a href="/mysite/board?a=viewform&boardno=${boardVo.boardno }">${boardVo.title }</a></td>
-						<td>${boardVo.name }</td>
-						<td>${boardVo.hit }</td>
-						<td>${boardVo.date }</td>
+						<td>${userboardVo.boardno }</td>
+						<td><a href="/mysite/board?a=viewform&boardno=${userboardVo.boardno }">${userboardVo.title }</a></td>
+						<td>${userboardVo.name }</td>
+						<td>${userboardVo.hit }</td>
+						<td>${userboardVo.date }</td>
 						
 						
 						
@@ -52,8 +52,8 @@
 							
 							<c:otherwise>	<!-- 로그인 했을때  -->
 								<c:choose>
-									<c:when test="${authUser.no  eq boardVo.user_no}">
-										<td><a href="/mysite/board?a=delete&deleteno=${boardVo.no }" class="del">삭제</a></td>
+									<c:when test="${authUser.no  eq userboardVo.user_no}">
+										<td><a href="/mysite/board?a=delete&deleteno=${userboardVo.boardno }" class="del">삭제</a></td>
 									</c:when>
 									<c:otherwise>
 										
